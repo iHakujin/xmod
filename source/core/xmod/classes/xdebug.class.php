@@ -10,6 +10,8 @@
 
 class xDebug extends xObject{
     
+    const TAG_KEY       = '^';     
+    
     public $log     =   null;
     public $level   =   0;
     public $info    =   array();
@@ -30,7 +32,7 @@ class xDebug extends xObject{
     
     protected function initDebug($level = 0){
         // Пишем, что лог запущен, дату и время
-        //$this->log->add('--xDebug started ( level: '.$level.')--'); 
+        $this->info['level'] = $level;
         switch ($level) {
             case 5 : {
                 

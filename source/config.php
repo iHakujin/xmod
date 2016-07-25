@@ -8,31 +8,35 @@
 
 // Системные настройки
 
-$configuration['site']['name']         = 'XMOD';
-$configuration['site']['default_charset']    = 'UTF-8';
+$configuration['site']['name']              = 'xMOD Demonstration Site';
+$configuration['site']['default_charset']   = 'UTF-8';
 
 
-$configuration['pathes']['core']        = dirname(__FILE__) . '/core/';
-$configuration['pathes']['assets']      = dirname(__FILE__) . '/assets/';
+$configuration['pathes']['core']            = dirname(__FILE__) . '/core/';
+$configuration['pathes']['cache']           = dirname(__FILE__) . '/core/cache/';
+$configuration['pathes']['assets']          = dirname(__FILE__) . '/assets/';
 
 // Настройки логов
-$configuration['log']['file']           = '/core/logs/error.log';
-$configuration['log']['dateformat']     = 'M.Y.d H:i:s';
+$configuration['log']['file']               = '/core/logs/error.log';
+$configuration['log']['dateformat']         = 'M.Y.d H:i:s';
 
 // Настройки сервера
-$configuration['server']['url_scheme']  = 'http://';
-$configuration['server']['port']        = $_SERVER['SERVER_PORT'];
-$configuration['server']['host']        = $_SERVER['HTTP_HOST'];
-$configuration['server']['name']        = $_SERVER['SERVER_NAME'];
+$configuration['server']['url_scheme']      = 'http://';
+$configuration['server']['port']            = $_SERVER['SERVER_PORT'];
+$configuration['server']['host']            = $_SERVER['HTTP_HOST'];
+$configuration['server']['name']            = $_SERVER['SERVER_NAME'];
 
 // Настройки БД
-$configuration['db']['host']            = '';
-$configuration['db']['user']            = '';
-$configuration['db']['login']           = '';
-$configuration['db']['passwd']          = '';
+$configuration['db']['offline']             = false; // Режим работы без подключения к БД
+$configuration['db']['type']                = 'mysql';
+$configuration['db']['host']                = 'localhost';
+$configuration['db']['dbname']              = ' ';
+$configuration['db']['user']                = ' ';
+$configuration['db']['passwd']              = ' ';
+$configuration['db']['prefix']              = 'xmod_';
 
 // Режим отладки
-$configuration['debug']['level']        = 5;
+$configuration['debug']['level']            = 5;
 
 if (!defined('XMOD_CORE_PATH')) define('XMOD_CORE_PATH', $configuration['pathes']['core']);
 

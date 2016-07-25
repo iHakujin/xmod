@@ -6,59 +6,9 @@
  * and open the template in the editor.
  */
 
-require_once(dirname(__FILE__).'/xobject.class.php');
+@require_once(dirname(__FILE__).'/xobject.class.php');
 
-class xRuntime extends xObject{
-
-    public $processor       = null;
-    
-    public $content_type    = '';
-    
-    public $ext             = '';
-    
-    public function __construct(\xMOD $xmod){
-        parent::__construct($xmod);
-    }
-    
-    public function run(){
-        $xmod = &$this->xmod;
-        
-        $ct_ext = &$xmod->config['extentions'][$this->content_type];
-
-        $this->ext              = (isset($ct_ext) ? $ct_ext : '.htm');
-        // Ищем подходящий процессор
-        $this->processor = $xmod->newObject('x'.$this->content_type.'Processor');  
-        
-        // Если не нашли, грузим дефолтный
-        if ( !is_object($this->processor) ) {
-            $this->processor = $xmod->newObject('xDefaultProcessor');
-        }
-
-        if (!is_a($this->processor, 'xDefaultProcessor')) {
-            return false;
-        }          
-        
-        $data = array_merge(array('_SERVER' => $_SERVER), $xmod->config);
-        $data['db']['passwd'] = 'hidden for secure';
-        
-        //print_r($data);
-        
-        $source = implode("\r\n", file($this->xmod->config['pathes']['core'].'xmod/templates/default.template.html'));
-        $this->processor->addSource($source);
-        if (!$this->processor->process($data, '++', '')){
-            $xmod->log('Unable to process document', __FILE__.'('.__LINE__.')', XLOG::CRITICAL);
-            return false;
-        }
-        
-        echo $this->processor->getResult();
-        
-        return true;
-    }
-}
-
-class xMOD {
-    public $startTime       = 0;
-    
+class xMOD {   
     public $config          = null;
     
     public $classDepot      = [];
@@ -92,9 +42,9 @@ class xMOD {
     
     public function initialize() {
         // Задаем данные о версии системы
-        $this->config['engine']['name']      = 'XMOD';
-        $this->config['engine']['version']['number']      = '0.0.1';
-        $this->config['engine']['version']['postfix']     = 'alpha';
+        $this->config['engine']['name']                 = 'xMOD';
+        $this->config['engine']['version']['number']    = '0.0.1';
+        $this->config['engine']['version']['postfix']   = 'alpha';
         
         
         
@@ -156,7 +106,7 @@ class xMOD {
                                
                 
                 if (is_object($this->xlog) && ($this->xlog instanceof xLog)){
-                    $this->log('Unable to create object "'.$classname.'", class not loaded.', $title = __FILE__.'('.__LINE__.') : ', $type = XLOG::ERROR);
+                    $this->log('Unable to create object "'.$classname.'", class not loaded.', __FILE__.'('.__LINE__.') : ', XLOG::ERROR);
                     return null;
                 }
                    
@@ -200,11 +150,7 @@ class xMOD {
     
     public function start($t){
         /* Set the actual start time */
-        $this->startTime = $t;        
-    
-        
-        $this->runtime = $this->newObject('xRuntime');
-        $this->runtime->content_type = 'html';
-        return $this->runtime->run();
+        $this->runtime = $this->newObject('xRuntime');        
+        return $this->runtime->run($t);
     }
 }

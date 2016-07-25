@@ -8,6 +8,8 @@
 
 require_once(dirname(__FILE__).'/xdefaultprocessor.class.php');
 require_once(dirname(dirname(__FILE__)).'/xcontenttemplate.class.php');
+require_once(dirname(dirname(__FILE__)).'/xchunk.class.php');
+require_once(dirname(dirname(__FILE__)).'/xsnippet.class.php');
 
 class xHTMLProcessor extends xDefaultProcessor {
     
@@ -56,7 +58,13 @@ class xHTMLProcessor extends xDefaultProcessor {
             }
         }
         return $results;
-    }    
+    }
+    
+    protected function parseChunk($name){
+        $xmod =& $this->xmod;
+        //$chunk = $xmod->newObject('xChunk');
+        return '<div>This is chunk!</div>'; // Запилить функцию
+    }
     
     private function processTags($source, $data = [], $key, $prefix){
         $matches = array();
@@ -71,16 +79,23 @@ class xHTMLProcessor extends xDefaultProcessor {
             // Подготавливаем данные
             $prepared_data = self::dot($data);
         }
-        
-        foreach((array)$matches as $match){          
-            $source = str_replace($match[0], $prepared_data[$match[3]], $source);   
+
+        foreach((array)$matches as $match){
+            switch ($match[2]) {
+                case $key               : $source = str_replace($match[0], self::dot($data)[$match[3]], $source);   
+                case '*'                : $source = str_replace($match[0], $page_data[$match[3]], $source);   
+                case xChunk::TAG_KEY    : $source = str_replace($match[0], $this->parseChunk($match[3]), $source);   
+                case xSnippet::TAG_KEY  : $source = str_replace($match[0], $this->parseChunk($match[3]), $source);
+                case xDebug::TAG_KEY    : $source = str_replace($match[0], self::dot($this->xmod->xdebug->info)[$match[3]], $source);
+                default                 : $source = str_replace($match[0], $additional_data[$match[3]], $source);   
+            }
             //xContentTemplate::OPENING_SYM.$match[2].$match[3].$match[4].xContentTemplate::TRAILING_SYM
         }
         return $source;
     }
     
     
-    public function process($data, $key = '*', $prefix = ''){
+    public function process($data, $key = '++', $prefix = ''){
         $source = implode("\n", $this->source);
         $this->source = $this->processTags($source, $data, $key, $prefix);
 /*

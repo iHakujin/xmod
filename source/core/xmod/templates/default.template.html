@@ -1,19 +1,55 @@
 <!DOCTYPE html>
-<html>
+<!--[if IE 7]>
+<html class="ie7 no-js" lang="ru">
+   <![endif]-->
+   <!--[if lte IE 8]>
+   <html class="ie8 no-js" lang="ru">
+      <![endif]-->
+      <!--[if (gte IE 9)|!(IE)]><!-->
+    <html class="not-ie no-js" lang="ru">
+         <!--<![endif]-->
     <head>
-        <title>[[++site.name]] - [[*pagetitle:is=`5`?var=var1]]</title>
-        <meta charset="[[++site.default_charset]]">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Type" content="text/html; charset=[[++site.default_charset]]" />
+        <!--[if ie]><meta http-equiv='X-UA-Compatible' content="IE=edge,IE=9,IE=8,chrome=1" /><![endif]-->
+
+        <title>[[++site.name]] - [[*pagetitle]]</title>
+        <base href="[[++site_url]]" />
+        <!-- Раскомментировать, если будет RSS и добавить нужный URL <link rel="alternate" type="application/rss+xml" title="RSS-лента новостей [[++site_name]]" href=""/> -->
+
+        <!-- Google Web Fonts -->
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,600italic|Handlee' rel='stylesheet' type='text/css'>
+
+        <meta name="keywords" content="[[*keywords]]">
+        <meta name="description" content="[[*description]]">
+        <meta name="author" content="">
+        <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+        <!-- Mobile Specific Metas -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+        <!-- Подключаем Bootstrap -->
+        <link href="assets/bootstrap/css/bootstrap.css" rel="stylesheet" />
+
+        <!-- Общие стили сайта -->
+        <link rel="stylesheet" href="assets/css/common.css.php" />	
+
+        <!-- Подключаем jQuery -->
+        <script src="assets/js/jquery-2.1.4.min.js"></script>
+
+        <!-- Подключаем Bootstrap JS -->
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     </head>
-    <body>
-        <h3>THIS IS <strike>SPARTA</strike> DEFAULT TEMPLATE OF xMOD CMS</h3>
-        Need to clean it, after base develop
-        <hr /><br />
-        [[$chunk]]
+    <body id="page_[[*id]]">
+            <h3>THIS IS xMOD CMS</h3>
+
         <div>[[++site.name]] DEFAULT TEMPLATE (<a href="[[++server.url_scheme]][[++_SERVER.HTTP_HOST]]">[[++_SERVER.HTTP_HOST]]</a>)</div>
-        
         <footer>
-            [[^foo]]
+            <pre>
+                Уровень отладки - [[^level]]
+                Запросов - [[^queries.count]]
+                Время на запросы - [[^queries.time]]
+                Время обработки данных - [[^run.time]]
+            </pre>
         </footer>
     </body>
 </html>

@@ -8,10 +8,8 @@
 
 @require_once(dirname(__FILE__).'/xcontenttemplate.class.php');
 
-class xChunk extends xContentTemplate{
-    protected $default_key  = '$';
-    protected $key          = null;
-    
+class xChunk extends xContentTemplate{   
+    const TAG_KEY       = '$';    
     public function __construct(\xMOD &$xmod) {
         parent::__construct($xmod);
         try{
@@ -21,12 +19,5 @@ class xChunk extends xContentTemplate{
         }
     }
     
-    public function setKey($key){
-        $this->key = $key;
-        return (($this->key == $key) ? true : false);
-    } 
-    
-    public function setDefaultKey(){
-        $this->key = $this->defult_key;
-    }
+
 }

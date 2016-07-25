@@ -8,7 +8,13 @@
 require_once(dirname(__FILE__).'/xobject.class.php');
 
 class xSpecifiedObject extends xObject {
-    protected $token = null;
+    
+    // Идентивфикаторы
+    protected   $token    =     null;
+    protected   $name     =     null;
+    
+    protected   $cached   =     true;
+    
     public function __construct(\xMOD &$xmod) {
         parent::__construct($xmod);
         $this->updateToken();
@@ -19,9 +25,17 @@ class xSpecifiedObject extends xObject {
         $this->token = uniqid();
         return (($old_token != $this->token) ? true : false );
     }
-    
+       
     public function getToken(){
         return $this->token;
     }
+    
+    public function getName(){
+        return $this->name;
+    }    
+    
+    public function load($name){
+        return true;
+    }    
 }
 

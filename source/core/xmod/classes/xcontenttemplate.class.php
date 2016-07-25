@@ -5,9 +5,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-@require_once(dirname(__FILE__).'/xspecifiedobject.class.php');
 
-class xContentTemplate extends xSpecifiedObject {
+@require_once(dirname(__FILE__).'/xpdoobject.class.php');
+
+class xContentTemplate extends xPDOObject {
    
     const OPENING_SYM       = '[[';
     const TRAILING_SYM      = ']]';
@@ -16,6 +17,8 @@ class xContentTemplate extends xSpecifiedObject {
     protected $source       = '';
     protected $prefix       = '';
     protected $cacheable    = false;
+    
+    protected $table_name   = 'xmod_templates';
     
     public function __construct(\xMOD &$xmod) {
         parent::__construct($xmod);
@@ -39,7 +42,8 @@ class xContentTemplate extends xSpecifiedObject {
         return $this->$prefix;
     }
     
-    public function process($data = []){
+    public function process($data = array()){
+
         //$processor->addSource($this->source);
         $processor->addData($this->data);
         
